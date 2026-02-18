@@ -1,0 +1,79 @@
+<div class="container">
+  <h1>MasterCompany</h1>
+  <p class="subtitle">Sistema de Gestión de Empleados</p>
+
+  <p *ngIf="loading" class="loading">Cargando empleados...</p>
+  <p *ngIf="error" class="error">{{ error }}</p>
+
+  <div class="card" *ngIf="!loading && !error">
+    <div class="table-header">
+      <div class="total-badge">
+        <span class="total-number">{{ filteredEmployees.length }}</span>
+        <span class="total-text">empleados {{ searchTerm ? 'encontrados' : 'registrados' }}</span>
+      </div>
+      <div class="header-controls">
+        <div class="search-box">
+          <input
+            type="text"
+            placeholder="Buscar por nombre, apellido, documento o posición..."
+            [(ngModel)]="searchTerm"
+            (input)="onSearch()"
+          />
+        </div>
+        <div class="page-size-selector">
+          Mostrar:
+          <button *ngFor="let size of pageSizes"
+                  [class.active]="pageSize === size"
+                  (click)="changePageSize(size)">
+            {{ size }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <table *ngIf="filteredEmployees.length > 0">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Documento</th>
+          <th>Salario</th>
+          <th>Género</th>
+          <th>Posición</th>
+          <th>Fecha Inicio</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let emp of paginatedEmployees">
+          <td>{{ emp.name }}</td>
+          <td>{{ emp.lastName }}</td>
+          <td>{{ emp.document }}</td>
+          <td class="salary">{{ emp.salary | number:'1.2-2' }}</td>
+          <td>
+            <span class="badge" [ngClass]="emp.gender === 'M' ? 'badge-m' : 'badge-f'">
+              {{ emp.gender === 'M' ? 'Masculino' : 'Femenino' }}
+            </span>
+          </td>
+          <td>{{ emp.position }}</td>
+          <td>{{ emp.startDate }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="no-results" *ngIf="filteredEmployees.length === 0">
+      No se encontraron empleados con "{{ searchTerm }}"
+    </div>
+
+    <div class="pagination" *ngIf="filteredEmployees.length > 0">
+      <button (click)="prevPage()" [disabled]="currentPage === 1">← Anterior</button>
+      <div class="page-numbers">
+        <button *ngFor="let page of totalPagesArray"
+                [class.active]="currentPage === page"
+                (click)="goToPage(page)">
+          {{ page }}
+        </button>
+      </div>
+      <button (click)="nextPage()" [disabled]="currentPage === totalPages">Siguiente →</button>
+    </div>
+  </div>
+</div>

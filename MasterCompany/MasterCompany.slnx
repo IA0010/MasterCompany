@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="MasterCompany.API/MasterCompany.API.csproj" />
+  <Project Path="MasterCompany.Business/MasterCompany.Business.csproj" />
+  <Project Path="MasterCompany.Data/MasterCompany.Data.csproj" />
+</Solution>

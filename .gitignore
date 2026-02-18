@@ -1,0 +1,13 @@
+# .NET
+**/bin/
+**/obj/
+*.user
+*.suo
+
+# Angular
+MasterCompany.Web/node_modules/
+MasterCompany.Web/.angular/
+
+# IDE
+.vs/
+.vscode/
